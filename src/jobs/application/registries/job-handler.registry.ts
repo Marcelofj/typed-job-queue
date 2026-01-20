@@ -1,5 +1,5 @@
 import { cleanUpTempFilesHandler, generateReportHandler, sendEmailHandler } from '../../domain'
-import { JobHandlers } from '../../domain/types/handlers.type'
+import { JobHandlers } from '../../domain/types/handler.type'
 
 export const handlers: JobHandlers = {
   'send-email': sendEmailHandler,

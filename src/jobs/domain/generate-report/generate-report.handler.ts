@@ -21,7 +21,7 @@
 //   }
 // }
 
-import { JobHandler } from '../types/handlers.type'
+import { JobHandler } from '../types/handler.type'
 
 export const generateReportHandler: JobHandler<'generate-report'> = async payload => {
 

@@ -1,3 +1,3 @@
-export type FilureKind =
+export type FailureKind =
   | 'fatal'
-  | 'retrayable'
+  | 'retryable'
