@@ -1,6 +1,7 @@
-# Sistema de Jobs Tipado em TypeScript (Documentação Consolidada)
 
-Esta documentação descreve os **conceitos**, **padrões** e **exemplos reais** usados no projeto de estudo de **TypeScript + Node.js**, cobrindo **do Dia 1 ao Dia 3**.
+# Sistema de Jobs Tipado em TypeScript 
+
+Esta documentação descreve os **conceitos**, **padrões** e **exemplos reais** usados no projeto de estudo de **TypeScript + Node.js**, cobrindo **do Dia 1 ao Dia 6**.
 
 O foco do projeto é:
 - escrever código diariamente
@@ -74,12 +75,7 @@ export type CleanUpTempFilesPayload = {
 
 ## 4. Lookup Map — JobPayloads
 
-### Conceito
-
 Um **lookup map** associa cada `JobType` ao tipo correto de payload.
-
-> Nome usado pela comunidade.
-> Feature oficial envolvida: **Indexed Access Types**.
 
 ```ts
 export type JobPayloads = {
@@ -89,19 +85,9 @@ export type JobPayloads = {
 }
 ```
 
-Uso:
-
-```ts
-JobPayloads[T]
-```
-
-📌 O tipo do payload **depende diretamente** do tipo do job.
-
 ---
 
 ## 5. Job<T>
-
-Representa uma instância concreta de um job.
 
 ```ts
 export type Job<T extends JobType> = {
@@ -111,14 +97,9 @@ export type Job<T extends JobType> = {
 }
 ```
 
-### Propriedades importantes
-
-- `T` é inferido automaticamente
-- `payload` é estritamente compatível com `type`
-
 ---
 
-## 6. createJob — Inferência Total
+## 6. createJob
 
 ```ts
 export function createJob<T extends JobType>(
@@ -133,286 +114,84 @@ export function createJob<T extends JobType>(
 }
 ```
 
-### Benefícios
+---
 
-- Nenhum cast
-- Nenhuma validação manual
-- Erros detectados em tempo de compilação
+## 7. Dia 4 — ExecutionResult e Falhas Tipadas
+
+Introdução de:
+
+- `ExecutionSuccess`
+- `ExecutionFailure`
+- `ExecutionResult<T, E>`
+
+Sistema passa a representar falhas como **valores tipados**, não exceções.
 
 ---
 
-## 7. JobHandler<T> — Dia 2
+## 8. Dia 5 — Retry, Worker e Filas
 
-Contrato de execução de um job.
+- `RetryPolicy`
+- `executeWithPolicy`
+- `JobWorker`
+- `JobQueue` (abstração)
 
-```ts
-export type JobHandler<T extends JobType> = (
-  payload: JobPayloads[T]
-) => Promise<void>
-```
-
-📌 Cada handler conhece exatamente o payload que recebe.
-
----
-
-## 8. Handlers Concretos (Dia 2)
-
-### send-email.handler.ts
-
-```ts
-export const sendEmailHandler: JobHandler<'send-email'> = async payload => {
-  payload.to
-  payload.subject
-  payload.body
-}
-```
-
-### generate-report.handler.ts
-
-```ts
-export const generateReportHandler: JobHandler<'generate-report'> = async payload => {
-  payload.userId
-  payload.format
-}
-```
-
-### clean-up-temp-files.handler.ts
-
-```ts
-export const cleanUpTempFilesHandler: JobHandler<'clean-up-temp-files'> = async payload => {
-  payload.directory
-  payload.maxAgeInDays
-  payload.dryRun
-}
-```
+Execução passa a ter:
+- múltiplas tentativas
+- classificação de falhas
+- separação entre domínio e infraestrutura
 
 ---
 
-## 9. Mapped Types — JobHandlers
+## 9. Dia 6 — Observabilidade Tipada
 
-### Conceito oficial do TypeScript
+Introdução de contratos de telemetria:
 
-Um **Mapped Type** cria tipos dinamicamente a partir de uma união.
+- `JobTelemetryEvent`
+- `JobTelemetryPort`
+- `ExecutionMetricsContext`
 
-```ts
-export type JobHandlers = {
-  [K in JobType]: JobHandler<K>
-}
-```
+Sistema passa a emitir eventos de:
 
-📘 Termo oficial: **Mapped Types**
+- job-started
+- job-succeeded
+- job-failed
 
----
-
-## 10. Registro de Handlers
-
-```ts
-export const handlers: JobHandlers = {
-  'send-email': sendEmailHandler,
-  'generate-report': generateReportHandler,
-  'clean-up-temp-files': cleanUpTempFilesHandler
-}
-```
-
-📌 Se faltar ou sobrar um handler, o TypeScript acusa erro.
+Sem acoplamento a ferramentas reais (logs, métricas, tracing).
 
 ---
 
-## 11. Dispatcher — Dia 2
+## 10. Estrutura Atual do Projeto (Dia 6)
 
-```ts
-export async function dispatchJob<T extends JobType>(
-  job: Job<T>,
-  handlers: JobHandlers
-): Promise<void> {
-  const handler = handlers[job.type]
-  await handler(job.payload)
-}
 ```
-
-📌 Neste ponto, o sistema executa jobs corretamente, mas **não retorna resultados**.
-
----
-
-## 12. Dia 3 — Resultados Tipados por Job
-
-No Dia 3 o sistema evolui para **retornar dados reais** de cada job.
-
-### Result Types
-
-```ts
-export type SendEmailResult = {
-  messageId: string
-  queuedAt: Date
-}
-```
-
-```ts
-export type GenerateReportResult = {
-  reportId: string
-  format: 'pdf' | 'csv'
-  downloadUrl: string
-}
-```
-
-```ts
-export type CleanUpTempFilesResult = {
-  scannedFiles: number
-  deletedFiles: number
-  dryRun: boolean
-}
+src
+└── jobs
+    ├── application
+    │   ├── dispatchers
+    │   ├── factories
+    │   ├── policies
+    │   ├── registries
+    │   ├── workers
+    │   └── observability   ← contratos de telemetria
+    │
+    ├── domain
+    │   ├── send-email
+    │   ├── generate-report
+    │   ├── clean-up-temp-files
+    │   └── types
+    │
+    └── infrastructure
+        └── queues
 ```
 
 ---
 
-## 13. Lookup Map — JobResults
+## 11. Estado Atual
 
-```ts
-export type JobResults = {
-  'send-email': SendEmailResult
-  'generate-report': GenerateReportResult
-  'clean-up-temp-files': CleanUpTempFilesResult
-}
-```
-
-📌 Mesmo padrão do `JobPayloads`.
+- Sistema totalmente tipado
+- Sem exceções de controle de fluxo
+- Contratos estáveis
+- Pronto para integrar filas reais, persistência e tracing distribuído
 
 ---
 
-## 14. JobHandler<T> — Dia 3
-
-```ts
-export type JobHandler<T extends JobType> = (
-  payload: JobPayloads[T]
-) => Promise<JobResults[T]>
-```
-
-Agora:
-- o handler **é obrigado a retornar algo**
-- o retorno **depende do tipo do job**
-
----
-
-## 15. Dispatcher — Dia 3
-
-```ts
-export async function dispatchJob<T extends JobType>(
-  job: Job<T>,
-  handlers: JobHandlers
-): Promise<JobResults[T]> {
-  const handler = handlers[job.type]
-  return handler(job.payload)
-}
-```
-
-📌 Inferência completa de entrada e saída.
-
----
-
-## 16. Exemplo de Uso
-
-```ts
-const result = await dispatchJob(job, handlers)
-```
-
-O TypeScript infere automaticamente:
-- o tipo correto de `payload`
-- o tipo correto de `result`
-
----
-
-## 17. dryRun
-
-`dryRun` é uma **flag de domínio** que indica:
-
-- `true`: simular execução
-- `false`: executar efeitos colaterais reais
-
-📌 Não muda tipos, apenas comportamento.
-
----
-
-## 18. Estado Atual do Projeto
-
-- Contratos bem definidos
-- Entrada e saída tipadas
-- Dispatcher genérico
-- Sistema observável
-
----
-
-## 19. Próximo Passo — Dia 4
-
-- jobs que podem falhar
-- retorno `success | failure`
-- sem `throw`
-- sem `try/catch` espalhado
-
----
-
-## 20. Conceitos e Referências
-
-| Termo | Origem |
-|---|---|
-| String Literal Union | TypeScript |
-| Indexed Access Types | TypeScript |
-| Mapped Types | TypeScript |
-| Lookup Map | Comunidade |
-| Type-driven design | Comunidade |
-| dryRun | Domínio |
-
----
-
-**Este projeto usa TypeScript como ferramenta de design, não apenas anotação de tipos.**
-
-
----
-
-## 17. Estrutura de Pastas Atual (Após o Dia 4)
-
-```
-src/
-├─ index.ts
-│
-├─ jobs/
-│  ├─ dispatcher.ts
-│  ├─ types.ts
-│  │
-│  ├─ payloads/
-│  │  ├─ send-email.payload.ts
-│  │  ├─ generate-report.payload.ts
-│  │  ├─ clean-up-temp-files.payload.ts
-│  │  └─ index.ts
-│  │
-│  ├─ results/
-│  │  ├─ send-email.result.ts
-│  │  ├─ generate-report.result.ts
-│  │  ├─ clean-up-temp-files.result.ts
-│  │  └─ index.ts
-│  │
-│  ├─ errors/
-│  │  ├─ send-email.error.ts
-│  │  ├─ generate-report.error.ts
-│  │  ├─ clean-up-temp-files.error.ts
-│  │  └─ index.ts
-│  │
-│  └─ handlers/
-│     ├─ send-email.handler.ts
-│     ├─ generate-report.handler.ts
-│     ├─ clean-up-temp-files.handler.ts
-│     └─ index.ts
-```
-
-### Observações de Arquitetura
-
-- `payloads/` → **input tipado** por job
-- `results/` → **output tipado** por job
-- `errors/` → **falhas tipadas** por job
-- `handlers/` → lógica de execução (payload → result)
-- `types.ts` → contratos centrais (maps, handlers, dispatcher)
-
-📌 Cada conceito cresce horizontalmente sem criar acoplamento.
-
----
-
-**Estado do projeto:** pronto para retries, métricas e filas reais (Dia 5).
+**Este projeto usa TypeScript como ferramenta de design arquitetural.**

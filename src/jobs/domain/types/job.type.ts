@@ -1,6 +1,6 @@
 import { JobPayloads } from './payloads.type'
 
-// string literal union
+// string literal union type
 export type JobType =
   | 'send-email'
   | 'generate-report'
