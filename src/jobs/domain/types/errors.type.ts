@@ -1,6 +1,6 @@
 import { CleanUpTempFilesError, GenerateReportError, SendEmailError } from '../../domain'
 
-// lookup map
+// lookup map - type map
 export type JobErrors = {
   'send-email': SendEmailError
   'generate-report': GenerateReportError

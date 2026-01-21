@@ -6,6 +6,7 @@ export type JobType =
   | 'generate-report'
   | 'clean-up-temp-files'
 
+// object type
 export type Job<T extends JobType> = {
   id: string
   type: T

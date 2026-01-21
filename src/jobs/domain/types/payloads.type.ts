@@ -1,6 +1,6 @@
 import { CleanUpTempFilesPayload, GenerateReportPayload, SendEmailPayload } from '../../domain'
 
-// lookup map
+// lookup map - type map
 export type JobPayloads = {
   'send-email': SendEmailPayload
   'generate-report': GenerateReportPayload

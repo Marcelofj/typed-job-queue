@@ -1,6 +1,6 @@
 import { CleanUpTempFilesResult, GenerateReportResult, SendEmailResult } from '../../domain'
 
-// lookup map
+// lookup map - type map
 export type JobResults = {
   'send-email': SendEmailResult
   'generate-report': GenerateReportResult
