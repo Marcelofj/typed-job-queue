@@ -1,3 +1,4 @@
+// Barrel Export
 // ENTITIES
 export type { JobEntity } from './entities/job.entity'
 
