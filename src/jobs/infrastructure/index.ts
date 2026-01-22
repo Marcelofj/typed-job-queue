@@ -3,6 +3,6 @@
 export { ConsoleTelemetryAdapter } from './observability/console-telemetry-adapter.observability'
 
 // QUEUES
-export { JobQueue } from './queues/job.queue'
+export type { JobQueue } from './queues/job.queue'
 export { InMemoryJobQueue } from './queues/in-memory.queue'
 

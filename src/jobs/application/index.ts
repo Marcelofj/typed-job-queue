@@ -14,8 +14,8 @@ export type {
   JobFailedEvent,
   JobTelemetryEvent
 } from './observability/job-telemetry-events.observability'
-export { ExecutionObserver } from './observability/execution-observer.observability'
-export { JobTelemetryPort } from './observability/job-telemetry-port.observability'
+export type { ExecutionObserver } from './observability/execution-observer.observability'
+export type { JobTelemetryPort } from './observability/job-telemetry-port.observability'
 export { ExecutionMetricsContext } from './observability/execution-metrics-context.observability'
 
 // POLICIES
