@@ -1,5 +1,8 @@
-import { Job, JobType } from '../../domain/types/job.type'
-import { JobPayloads } from '../../domain/types/payloads.type'
+import {
+  Job,
+  JobType,
+  JobPayloads
+} from '../../domain'
 
 export function createJob<T extends JobType>(
   type: T,

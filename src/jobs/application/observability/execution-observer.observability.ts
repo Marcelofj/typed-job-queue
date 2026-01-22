@@ -1,6 +1,8 @@
-import type { Job } from '../../domain/types/job.type'
-import type { ExecutionResult } from '../../domain/types/execution.type'
-import type { JobType } from '../../domain/types/job.type'
+import type {
+  Job,
+  ExecutionResult,
+  JobType
+} from '../../domain'
 
 export interface ExecutionObserver {
   onAttemptStart<T extends JobType>(job: Job<T>, attempt: number): void

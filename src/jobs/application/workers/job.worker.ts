@@ -1,5 +1,5 @@
 import type { JobQueue } from '../../infrastructure/queues/job.queue'
-import type { JobHandlers } from '../../domain/types/handler.type'
+import type { JobHandlers } from '../../domain'
 import type { JobTelemetryPort } from '../observability/job-telemetry-port.observability'
 import { executeWithPolicy } from '../dispatchers/execution-context.dispatcher'
 import { ExecutionMetricsContext } from '../observability/execution-metrics-context.observability'

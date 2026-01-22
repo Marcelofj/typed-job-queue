@@ -1,4 +1,4 @@
-import type { ExecutionResult } from '../../domain/types/execution.type'
+import type { ExecutionResult } from '../../domain'
 
 export type RetryDecision =
   | { action: 'retry'; delayMs: number }

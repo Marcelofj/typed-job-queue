@@ -1,4 +1,4 @@
-import type { Job, JobType } from '../../domain/types/job.type'
+import type { Job, JobType } from '../../domain'
 import type { JobQueue } from './job.queue'
 
 export class InMemoryJobQueue implements JobQueue {

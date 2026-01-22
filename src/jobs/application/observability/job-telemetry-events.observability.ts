@@ -1,5 +1,7 @@
-import type { JobType } from '../../domain/types/job.type'
-import type { FailureKind } from '../../domain/types/execution.type'
+import type {
+  JobType,
+  FailureKind
+} from '../../domain'
 
 /**
  * Base comum para todos os eventos de telemetria de jobs.

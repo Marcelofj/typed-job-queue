@@ -1,6 +1,9 @@
-import type { Job, JobType } from '../../domain/types/job.type'
-import type { JobHandlers } from '../../domain/types/handler.type'
-import type { ExecutionResult } from '../../domain/types/execution.type'
+import type {
+  Job,
+  JobType,
+  JobHandlers,
+  ExecutionResult
+} from '../../domain'
 import { dispatchJob } from './dispatch-job.dispatcher'
 import { decideRetry } from '../policies/retry.policy'
 import type { ExecutionObserver } from '../observability/execution-observer.observability'

@@ -1,8 +1,10 @@
 import type { ExecutionObserver } from './execution-observer.observability'
-import type { Job } from '../../domain/types/job.type'
-import type { ExecutionResult } from '../../domain/types/execution.type'
+import type {
+  Job,
+  ExecutionResult,
+  JobType
+} from '../../domain'
 import type { JobTelemetryPort } from './job-telemetry-port.observability'
-import type { JobType } from '../../domain/types/job.type'
 
 export class ExecutionMetricsContext implements ExecutionObserver {
 
