@@ -1,4 +1,4 @@
-import type { JobQueue } from '../../infrastructure/queues/job.queue'
+import type { JobQueue } from '../../infrastructure'
 import type { JobHandlers } from '../../domain'
 import type { JobTelemetryPort } from '../observability/job-telemetry-port.observability'
 import { executeWithPolicy } from '../dispatchers/execution-context.dispatcher'

@@ -1,5 +1,4 @@
-import type { JobTelemetryPort } from '../../application/observability/job-telemetry-port.observability'
-import type { JobTelemetryEvent } from '../../application/observability/job-telemetry-events.observability'
+import type { JobTelemetryPort, JobTelemetryEvent } from '../../application'
 
 export class ConsoleTelemetryAdapter implements JobTelemetryPort {
   publish(event: JobTelemetryEvent): void {
