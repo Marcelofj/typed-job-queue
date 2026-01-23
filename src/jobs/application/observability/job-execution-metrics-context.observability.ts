@@ -1,4 +1,4 @@
-import type { ExecutionObserver } from './execution-observer.observability.js'
+import type { JobExecutionObserver } from './job-execution-observer.observability.js'
 import type {
   Job,
   JobExecutionResult,
@@ -7,7 +7,7 @@ import type {
 
 import type { JobTelemetryPort } from './job-telemetry-port.observability.js'
 
-export class ExecutionMetricsContext implements ExecutionObserver {
+export class JobExecutionMetricsContext implements JobExecutionObserver {
 
   constructor(private telemetry: JobTelemetryPort) { }
 

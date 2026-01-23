@@ -6,11 +6,11 @@ import type {
 } from '../../domain/index.js'
 import { dispatchJob } from './dispatch-job.dispatcher.js'
 import { decideRetry } from '../policies/retry.policy.js'
-import type { ExecutionObserver } from '../observability/execution-observer.observability.js'
+import type { JobExecutionObserver } from '../observability/job-execution-observer.observability.js'
 
 type ExecutionContextOptions = {
   maxAttempts: number
-  observer?: ExecutionObserver
+  observer?: JobExecutionObserver
 }
 
 const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms))

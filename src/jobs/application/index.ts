@@ -14,9 +14,9 @@ export type {
   JobFailedEvent,
   JobTelemetryEvent
 } from './observability/job-telemetry-events.observability.js'
-export type { ExecutionObserver } from './observability/execution-observer.observability.js'
+export type { JobExecutionObserver } from './observability/job-execution-observer.observability.js'
 export type { JobTelemetryPort } from './observability/job-telemetry-port.observability.js'
-export { ExecutionMetricsContext } from './observability/execution-metrics-context.observability.js'
+export { JobExecutionMetricsContext } from './observability/job-execution-metrics-context.observability.js'
 
 // POLICIES
 export type { RetryDecision } from './policies/retry.policy.js'
