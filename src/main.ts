@@ -1,6 +1,6 @@
 import { InMemoryJobRepository } from './jobs/infrastructure/index.js'
 
-import { handlers, JobWorker, CreateJobFactory } from './jobs/application/index.js'
+import { handlers, JobWorker, JobFactory } from './jobs/application/index.js'
 
 // --------------------
 // Infraestrutura
@@ -13,25 +13,25 @@ const repository = new InMemoryJobRepository()
 // --------------------
 
 const worker = new JobWorker(repository, handlers)
-const createJobFactory = new CreateJobFactory(repository)
+const jobFactory = new JobFactory(repository)
 
 // --------------------
 // Seed inicial
 // --------------------
 
 async function seed() {
-  createJobFactory.create('send-email', {
+  jobFactory.create('send-email', {
     to: 'user@test.com',
     subject: 'Hello',
     body: 'Welcome!'
   })
 
-  createJobFactory.create('generate-report', {
+  jobFactory.create('generate-report', {
     userId: 'user-123',
     format: 'pdf'
   })
 
-  createJobFactory.create('clean-up-temp-files', {
+  jobFactory.create('clean-up-temp-files', {
     directory: '/tmp',
     maxAgeInDays: 7,
     dryRun: true

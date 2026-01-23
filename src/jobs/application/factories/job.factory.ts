@@ -6,7 +6,7 @@ import type {
   JobEntity
 } from '../../domain/index.js'
 
-export class CreateJobFactory {
+export class JobFactory {
   constructor(private readonly repository: JobRepository) { }
 
   async create<T extends JobType>(

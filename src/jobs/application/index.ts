@@ -1,10 +1,10 @@
 // Barrel Export
 // DISPATCHERS
 export { dispatchJob } from './dispatchers/dispatch-job.dispatcher.js'
-export { executeWithPolicy } from './dispatchers/execution-context.dispatcher.js'
+export { executeWithPolicy } from './dispatchers/execute-with-policy.dispatcher.js'
 
 // FACTORIES
-export { CreateJobFactory } from './factories/create-job.factory.js'
+export { JobFactory } from './factories/job.factory.js'
 
 // OBSERVABILITY
 export type {

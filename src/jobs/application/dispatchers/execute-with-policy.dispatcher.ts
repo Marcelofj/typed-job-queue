@@ -2,15 +2,17 @@ import type {
   Job,
   JobType,
   JobHandlers,
-  JobExecutionResult
+  JobExecutionResult,
+  JobResults,
+  JobErrors
 } from '../../domain/index.js'
 import { dispatchJob } from './dispatch-job.dispatcher.js'
 import { decideRetry } from '../policies/retry.policy.js'
 import type { JobExecutionObserver } from '../observability/job-execution-observer.observability.js'
 
-type ExecutionContextOptions = {
+export type JobExecutionContextOptions = {
   maxAttempts: number
-  observer?: JobExecutionObserver
+  observer?: JobExecutionObserver | undefined
 }
 
 const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms))
@@ -18,8 +20,8 @@ const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(r
 export const executeWithPolicy = async <T extends JobType>(
   job: Job<T>,
   handlers: JobHandlers,
-  options: ExecutionContextOptions,
-): Promise<JobExecutionResult<any, any>> => {
+  options: JobExecutionContextOptions,
+): Promise<JobExecutionResult<JobResults[T], JobErrors[T]>> => {
 
   let attempt = 1
 
