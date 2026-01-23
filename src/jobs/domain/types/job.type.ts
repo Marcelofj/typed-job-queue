@@ -1,4 +1,4 @@
-import { JobPayloads } from './payloads.type'
+import type { JobPayloads } from './job-payloads.type.js'
 
 // string literal union type
 export type JobType =

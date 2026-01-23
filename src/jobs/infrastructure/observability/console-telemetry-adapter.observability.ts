@@ -1,4 +1,4 @@
-import type { JobTelemetryPort, JobTelemetryEvent } from '../../application'
+import type { JobTelemetryPort, JobTelemetryEvent } from '../../application/index.js'
 
 export class ConsoleTelemetryAdapter implements JobTelemetryPort {
   publish(event: JobTelemetryEvent): void {

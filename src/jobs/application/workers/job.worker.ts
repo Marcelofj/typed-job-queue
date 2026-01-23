@@ -1,28 +1,33 @@
-import type { JobQueue } from '../../infrastructure'
-import type { JobHandlers } from '../../domain'
-import type { JobTelemetryPort } from '../observability/job-telemetry-port.observability'
-import { executeWithPolicy } from '../dispatchers/execution-context.dispatcher'
-import { ExecutionMetricsContext } from '../observability/execution-metrics-context.observability'
+import type { JobHandlers, JobRepository } from '../../domain/index.js'
+import { executeWithPolicy } from '../dispatchers/execution-context.dispatcher.js'
 
 export class JobWorker {
-
-  private metrics: ExecutionMetricsContext
-
   constructor(
-    private queue: JobQueue,
-    private handlers: JobHandlers,
-    telemetry: JobTelemetryPort
-  ) {
-    this.metrics = new ExecutionMetricsContext(telemetry)
-  }
+    private readonly repository: JobRepository,
+    private readonly handlers: JobHandlers
+  ) { }
 
   async runOnce(): Promise<void> {
-    const job = await this.queue.dequeue()
+    const job = await this.repository.findNextPending()
+
     if (!job) return
 
-    await executeWithPolicy(job, this.handlers, {
-      maxAttempts: 3,
-      observer: this.metrics
-    })
+    // marca como running
+    job.status = 'running'
+    job.updatedAt = new Date()
+    await this.repository.update(job)
+
+    const result = await executeWithPolicy(job, this.handlers, { maxAttempts: 3 })
+
+    if (result.status === 'success') {
+      job.status = 'success'
+    } else {
+      job.status = 'failure'
+    }
+
+    job.updatedAt = new Date()
+    await this.repository.update(job)
+
+    console.log(`[JOB ${job.id}]`, result)
   }
 }

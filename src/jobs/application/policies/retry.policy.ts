@@ -1,11 +1,11 @@
-import type { ExecutionResult } from '../../domain'
+import type { JobExecutionResult } from '../../domain/index.js'
 
 export type RetryDecision =
   | { action: 'retry'; delayMs: number }
   | { action: 'discard' }
 
 export function decideRetry(
-  result: ExecutionResult<any, any>,
+  result: JobExecutionResult<any, any>,
   attempt: number
 ): RetryDecision {
   if (result.status === 'success') {

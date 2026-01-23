@@ -1,7 +1,7 @@
 import type {
   JobType,
-  FailureKind
-} from '../../domain'
+  JobFailureKind
+} from '../../domain/index.js'
 
 /**
  * Base comum para todos os eventos de telemetria de jobs.
@@ -35,7 +35,7 @@ export type JobSucceededEvent = BaseJobTelemetryEvent & {
 export type JobFailedEvent = BaseJobTelemetryEvent & {
   type: 'job-failed'
   durationMs: number
-  kind: FailureKind
+  kind: JobFailureKind
 }
 
 /**

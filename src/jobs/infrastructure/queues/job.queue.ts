@@ -1,4 +1,4 @@
-import type { Job, JobType } from '../../domain'
+import type { Job, JobType } from '../../domain/index.js'
 
 export interface JobQueue {
   enqueue<T extends JobType>(job: Job<T>): Promise<void>

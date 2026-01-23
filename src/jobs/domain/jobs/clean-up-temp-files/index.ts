@@ -1,5 +1,5 @@
-export type { CleanUpTempFilesPayload } from './clean-up-temp-files.payload'
-export type { CleanUpTempFilesResult } from './clean-up-temp-files.result'
-export type { CleanUpTempFilesError } from './clean-up-temp-files.error'
-export { cleanUpTempFilesHandler } from './clean-up-temp-files.handler'
+export type { CleanUpTempFilesPayload } from './clean-up-temp-files.payload.js'
+export type { CleanUpTempFilesResult } from './clean-up-temp-files.result.js'
+export type { CleanUpTempFilesError } from './clean-up-temp-files.error.js'
+export { cleanUpTempFilesHandler } from './clean-up-temp-files.handler.js'
 

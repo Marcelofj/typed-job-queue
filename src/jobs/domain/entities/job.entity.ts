@@ -1,6 +1,6 @@
-import { JobStatus } from '../types/job-status.type'
-import { JobType } from '../types/job.type'
-import { JobPayloads } from '../types/payloads.type'
+import type { JobStatus } from '../types/job-status.type.js'
+import type { JobType } from '../types/job.type.js'
+import type { JobPayloads } from '../types/job-payloads.type.js'
 
 export type JobEntity<T extends JobType> = {
   id: string

@@ -1,9 +1,10 @@
 import {
   cleanUpTempFilesHandler,
   generateReportHandler,
-  sendEmailHandler,
-  JobHandlers
-} from '../../domain'
+  sendEmailHandler
+} from '../../domain/index.js'
+
+import type { JobHandlers } from '../../domain/index.js'
 
 export const handlers: JobHandlers = {
   'send-email': sendEmailHandler,

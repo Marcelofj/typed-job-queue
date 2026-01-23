@@ -1,4 +1,4 @@
-import type { JobTelemetryEvent } from './job-telemetry-events.observability'
+import type { JobTelemetryEvent } from './job-telemetry-events.observability.js'
 
 /**
  * Porta de saída da camada de aplicação para telemetria de jobs.

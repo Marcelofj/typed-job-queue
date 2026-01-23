@@ -1,15 +1,15 @@
 import type {
   Job,
-  ExecutionResult,
+  JobExecutionResult,
   JobType
-} from '../../domain'
+} from '../../domain/index.js'
 
 export interface ExecutionObserver {
   onAttemptStart<T extends JobType>(job: Job<T>, attempt: number): void
   onAttemptFinish<T extends JobType, R, E>(
     job: Job<T>,
     attempt: number,
-    result: ExecutionResult<R, E>,
+    result: JobExecutionResult<R, E>,
     durationMs: number
   ): void
 }

@@ -1,4 +1,4 @@
-import { JobHandler } from '../../types/handler.type'
+import type { JobHandler } from '../../types/job-handler.type.js'
 
 export const generateReportHandler: JobHandler<'generate-report'> = async payload => {
   const userExists = payload.userId.trim().length > 0

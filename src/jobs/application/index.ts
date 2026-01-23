@@ -1,10 +1,10 @@
 // Barrel Export
 // DISPATCHERS
-export { dispatchJob } from './dispatchers/dispatch-job.dispatcher'
-export { executeWithPolicy } from './dispatchers/execution-context.dispatcher'
+export { dispatchJob } from './dispatchers/dispatch-job.dispatcher.js'
+export { executeWithPolicy } from './dispatchers/execution-context.dispatcher.js'
 
 // FACTORIES
-export { createJob } from './factories/create-job.factory'
+export { CreateJobFactory } from './factories/create-job.factory.js'
 
 // OBSERVABILITY
 export type {
@@ -13,20 +13,19 @@ export type {
   JobSucceededEvent,
   JobFailedEvent,
   JobTelemetryEvent
-} from './observability/job-telemetry-events.observability'
-export type { ExecutionObserver } from './observability/execution-observer.observability'
-export type { JobTelemetryPort } from './observability/job-telemetry-port.observability'
-export { ExecutionMetricsContext } from './observability/execution-metrics-context.observability'
+} from './observability/job-telemetry-events.observability.js'
+export type { ExecutionObserver } from './observability/execution-observer.observability.js'
+export type { JobTelemetryPort } from './observability/job-telemetry-port.observability.js'
+export { ExecutionMetricsContext } from './observability/execution-metrics-context.observability.js'
 
 // POLICIES
-export type { FailureKind } from './policies/failure-classification.policy'
-export type { RetryDecision } from './policies/retry.policy'
-export { decideRetry } from './policies/retry.policy'
+export type { RetryDecision } from './policies/retry.policy.js'
+export { decideRetry } from './policies/retry.policy.js'
 
 // REGISTRIES
-export { handlers } from './registries/job-handler.registry'
+export { handlers } from './registries/job-handler.registry.js'
 
 // WORKERS
-export { JobWorker } from './workers/job.worker'
+export { JobWorker } from './workers/job.worker.js'
 
 

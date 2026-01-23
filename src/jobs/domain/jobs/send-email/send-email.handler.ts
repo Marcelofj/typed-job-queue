@@ -1,4 +1,4 @@
-import { JobHandler } from '../../types/handler.type'
+import type { JobHandler } from '../../types/job-handler.type.js'
 
 export const sendEmailHandler: JobHandler<'send-email'> = async payload => {
 

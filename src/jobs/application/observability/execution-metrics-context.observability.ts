@@ -1,10 +1,11 @@
-import type { ExecutionObserver } from './execution-observer.observability'
+import type { ExecutionObserver } from './execution-observer.observability.js'
 import type {
   Job,
-  ExecutionResult,
+  JobExecutionResult,
   JobType
-} from '../../domain'
-import type { JobTelemetryPort } from './job-telemetry-port.observability'
+} from '../../domain/index.js'
+
+import type { JobTelemetryPort } from './job-telemetry-port.observability.js'
 
 export class ExecutionMetricsContext implements ExecutionObserver {
 
@@ -23,7 +24,7 @@ export class ExecutionMetricsContext implements ExecutionObserver {
   onAttemptFinish<T extends JobType, R, E>(
     job: Job<T>,
     attempt: number,
-    result: ExecutionResult<R, E>,
+    result: JobExecutionResult<R, E>,
     durationMs: number
   ): void {
 

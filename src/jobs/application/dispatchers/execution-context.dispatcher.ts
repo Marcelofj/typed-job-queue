@@ -2,11 +2,11 @@ import type {
   Job,
   JobType,
   JobHandlers,
-  ExecutionResult
-} from '../../domain'
-import { dispatchJob } from './dispatch-job.dispatcher'
-import { decideRetry } from '../policies/retry.policy'
-import type { ExecutionObserver } from '../observability/execution-observer.observability'
+  JobExecutionResult
+} from '../../domain/index.js'
+import { dispatchJob } from './dispatch-job.dispatcher.js'
+import { decideRetry } from '../policies/retry.policy.js'
+import type { ExecutionObserver } from '../observability/execution-observer.observability.js'
 
 type ExecutionContextOptions = {
   maxAttempts: number
@@ -19,7 +19,7 @@ export const executeWithPolicy = async <T extends JobType>(
   job: Job<T>,
   handlers: JobHandlers,
   options: ExecutionContextOptions,
-): Promise<ExecutionResult<any, any>> => {
+): Promise<JobExecutionResult<any, any>> => {
 
   let attempt = 1
 

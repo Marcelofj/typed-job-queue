@@ -1,5 +1,5 @@
-import type { Job, JobType } from '../../domain'
-import type { JobQueue } from './job.queue'
+import type { Job, JobType } from '../../domain/index.js'
+import type { JobQueue } from './job.queue.js'
 
 export class InMemoryJobQueue implements JobQueue {
   private queue: Job<any>[] = []
