@@ -1,14 +1,13 @@
-import type { Job, JobType } from '../../domain/index.js'
 import type { JobQueue } from './job.queue.js'
 
 export class InMemoryJobQueue implements JobQueue {
-  private queue: Job<any>[] = []
+  private queue: string[] = []
 
-  async enqueue<T extends JobType>(job: Job<T>): Promise<void> {
-    this.queue.push(job)
+  async enqueue(jobId: string): Promise<void> {
+    this.queue.push(jobId)
   }
 
-  async dequeue(): Promise<Job<any> | undefined> {
+  async dequeue(): Promise<string | undefined> {
     return this.queue.shift()
   }
 }

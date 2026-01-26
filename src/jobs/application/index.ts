@@ -1,6 +1,7 @@
 // Barrel Export
 // DISPATCHERS
 export { dispatchJob } from './dispatchers/dispatch-job.dispatcher.js'
+export { executeObserved } from './dispatchers/execute-observed.dispatcher.js'
 export { executeWithPolicy } from './dispatchers/execute-with-policy.dispatcher.js'
 
 // FACTORIES
@@ -21,6 +22,9 @@ export { JobExecutionMetricsContext } from './observability/job-execution-metric
 // POLICIES
 export type { RetryDecision } from './policies/retry.policy.js'
 export { decideRetry } from './policies/retry.policy.js'
+
+// QUEUES
+export type { JobQueue } from './queues/job.queue.ts'
 
 // REGISTRIES
 export { handlers } from './registries/job-handler.registry.js'

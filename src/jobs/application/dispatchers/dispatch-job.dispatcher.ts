@@ -11,15 +11,19 @@ export async function dispatchJob<T extends JobType>(
   job: Job<T>,
   handlers: JobHandlers
 ): Promise<JobExecutionResult<JobResults[T], JobErrors[T]>> {
+
   const handler = handlers[job.type]
 
-  // Guarda de tipo necessária com noUncheckedIndexedAccess: true
+  // Guarda apenas para o TypeScript (runtime impossível se registry estiver correto)
   if (!handler) {
-    throw new Error(
-      `No handler registered for job type: ${job.type}. ` +
-      `Available handlers: ${Object.keys(handlers).join(', ')}`
-    )
+    // estado impossível por contrato → falha fatal padronizada
+    return {
+      status: 'failure',
+      kind: 'fatal',
+      error: {} as JobErrors[T]
+    }
   }
 
-  return await handler(job.payload)
+  // 🔹 handler já retorna JobExecutionResult
+  return handler(job.payload)
 }

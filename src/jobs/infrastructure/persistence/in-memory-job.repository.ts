@@ -22,8 +22,37 @@ export class InMemoryJobRepository implements JobRepository {
     return this.jobs.find(j => j.id === id) ?? null
   }
 
+  async claimById(id: string): Promise<JobEntity<any> | null> {
+    const job = this.jobs.find(j => j.id === id)
+
+    if (!job) return null
+    if (job.status !== 'pending') return null
+
+    job.status = 'running'
+    job.attempts++
+    job.updatedAt = new Date()
+
+    return job
+  }
+
+
+  // ⚠️ Mantido apenas para debug / admin
   async findNextPending(): Promise<JobEntity<any> | null> {
     return this.jobs.find(j => j.status === 'pending') ?? null
+  }
+
+  // ✅ CLAIM ATÔMICO
+  async claimNextPending(): Promise<JobEntity<any> | null> {
+    const job = this.jobs.find(j => j.status === 'pending')
+
+    if (!job) return null
+
+    // operação atômica dentro da mesma função
+    job.status = 'running'
+    job.attempts++
+    job.updatedAt = new Date()
+
+    return job
   }
 
   async findByStatus(status: JobStatus): Promise<JobEntity<any>[]> {

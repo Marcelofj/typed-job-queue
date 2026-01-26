@@ -6,8 +6,13 @@ import type {
   JobEntity
 } from '../../domain/index.js'
 
+import type { JobQueue } from '../queues/job.queue.js'
+
 export class JobFactory {
-  constructor(private readonly repository: JobRepository) { }
+  constructor(
+    private readonly repository: JobRepository,
+    private readonly queue: JobQueue
+  ) { }
 
   async create<T extends JobType>(
     type: T,
@@ -26,6 +31,8 @@ export class JobFactory {
     }
 
     await this.repository.save(job)
+
+    await this.queue.enqueue(job.id)
 
     return job
   }
