@@ -1,7 +1,7 @@
 import type { JobExecutionResult } from '../../domain/index.js'
 
 export type RetryDecision =
-  | { action: 'retry'; delayMs: number }
+  | { action: 'retry' }
   | { action: 'discard' }
 
 export function decideRetry(
@@ -22,7 +22,6 @@ export function decideRetry(
   }
 
   return {
-    action: 'retry',
-    delayMs: attempt * 1000
+    action: 'retry'
   }
 }

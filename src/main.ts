@@ -1,17 +1,27 @@
-// src/main.ts
-
+import { cleanUpTempFilesHandler, generateReportHandler, sendEmailHandler, type JobHandlers } from './jobs/domain/index.js'
+import { JobWorker, JobFactory, JobExecutionMetricsContext } from './jobs/application/index.js'
 import {
   ConsoleTelemetryAdapter,
   InMemoryJobRepository,
   InMemoryJobQueue
 } from './jobs/infrastructure/index.js'
 
-import { handlers, JobWorker, JobFactory } from './jobs/application/index.js'
+
+// --------------------
+// Domínio
+// --------------------
+
+const handlers: JobHandlers = {
+  'send-email': sendEmailHandler,
+  'generate-report': generateReportHandler,
+  'clean-up-temp-files': cleanUpTempFilesHandler
+}
 
 // --------------------
 // Infraestrutura
 // --------------------
 
+const telemetry = new ConsoleTelemetryAdapter()
 const repository = new InMemoryJobRepository()
 const queue = new InMemoryJobQueue()
 
@@ -19,7 +29,8 @@ const queue = new InMemoryJobQueue()
 // Application
 // --------------------
 
-const jobWorker = new JobWorker(repository, queue, handlers)
+const observer = new JobExecutionMetricsContext(telemetry)
+const jobWorker = new JobWorker(repository, queue, handlers, observer)
 const jobFactory = new JobFactory(repository, queue)
 
 // --------------------
@@ -27,27 +38,22 @@ const jobFactory = new JobFactory(repository, queue)
 // --------------------
 
 async function seed() {
-  const job1 = await jobFactory.create('send-email', {
+  await jobFactory.create('send-email', {
     to: 'user@test.com',
     subject: 'Hello',
     body: 'Welcome!'
   })
 
-  const job2 = await jobFactory.create('generate-report', {
+  await jobFactory.create('generate-report', {
     userId: 'user-123',
     format: 'pdf'
   })
 
-  const job3 = await jobFactory.create('clean-up-temp-files', {
+  await jobFactory.create('clean-up-temp-files', {
     directory: '/tmp',
     maxAgeInDays: 7,
     dryRun: true
   })
-
-  // 🔹 fila recebe APENAS IDs
-  await queue.enqueue(job1.id)
-  await queue.enqueue(job2.id)
-  await queue.enqueue(job3.id)
 }
 
 // --------------------

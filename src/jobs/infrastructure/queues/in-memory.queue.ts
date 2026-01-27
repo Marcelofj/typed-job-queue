@@ -1,4 +1,4 @@
-import type { JobQueue } from './job.queue.js'
+import type { JobQueue } from '../../application/queues/job.queue.js'
 
 export class InMemoryJobQueue implements JobQueue {
   private queue: string[] = []

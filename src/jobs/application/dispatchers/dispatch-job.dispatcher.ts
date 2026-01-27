@@ -14,7 +14,7 @@ export async function dispatchJob<T extends JobType>(
 
   const handler = handlers[job.type]
 
-  // Guarda apenas para o TypeScript (runtime impossível se registry estiver correto)
+  // Estado impossível por contrato de tipos (handlers deve estar completo)
   if (!handler) {
     // estado impossível por contrato → falha fatal padronizada
     return {

@@ -24,12 +24,10 @@ export class JobWorker {
     const job = await this.repository.claimById(jobId)
     if (!job) return
 
-    const exec = () =>
-      executeWithPolicy(
-        job,
-        this.handlers,
-        { attempt: job.attempts }
-      )
+    const exec = () => executeWithPolicy(
+      job,
+      this.handlers
+    )
 
     const result = this.observer
       ? await executeObserved(

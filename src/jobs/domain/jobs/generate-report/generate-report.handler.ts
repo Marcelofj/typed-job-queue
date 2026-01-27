@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import type { JobHandler } from '../../types/job-handler.type.js'
 
 export const generateReportHandler: JobHandler<'generate-report'> = async payload => {
@@ -14,7 +15,7 @@ export const generateReportHandler: JobHandler<'generate-report'> = async payloa
   return {
     status: 'success',
     data: {
-      reportId: crypto.randomUUID(),
+      reportId: randomUUID(),
       format: payload.format,
       downloadUrl: `https://reports.local/${payload.userId}`
     }

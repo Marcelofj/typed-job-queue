@@ -1,7 +1,9 @@
 import type {
   Job,
   JobType,
-  JobExecutionResult
+  JobExecutionResult,
+  JobResults,
+  JobErrors
 } from '../../domain/index.js'
 
 import type { JobExecutionObserver } from '../observability/job-execution-observer.observability.js'
@@ -11,12 +13,12 @@ import type { JobExecutionObserver } from '../observability/job-execution-observ
  * Responsável EXCLUSIVAMENTE por telemetria de tentativa.
  * Não conhece handlers, políticas ou filas.
  */
-export async function executeObserved<T extends JobType, R, E>(
+export async function executeObserved<T extends JobType>(
   job: Job<T>,
   attempt: number,
   observer: JobExecutionObserver,
-  exec: () => Promise<JobExecutionResult<R, E>>
-): Promise<JobExecutionResult<R, E>> {
+  exec: () => Promise<JobExecutionResult<JobResults[T], JobErrors[T]>>
+): Promise<JobExecutionResult<JobResults[T], JobErrors[T]>> {
 
   const start = Date.now()
 

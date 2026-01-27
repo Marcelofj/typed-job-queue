@@ -24,10 +24,7 @@ export type { RetryDecision } from './policies/retry.policy.js'
 export { decideRetry } from './policies/retry.policy.js'
 
 // QUEUES
-export type { JobQueue } from './queues/job.queue.ts'
-
-// REGISTRIES
-export { handlers } from './registries/job-handler.registry.js'
+export type { JobQueue } from './queues/job.queue.js'
 
 // WORKERS
 export { JobWorker } from './workers/job.worker.js'

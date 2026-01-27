@@ -1,7 +1,6 @@
 import type {
   JobRepository,
-  JobEntity,
-  JobStatus
+  JobEntity
 } from '../../domain/index.js'
 
 export class InMemoryJobRepository implements JobRepository {
@@ -33,29 +32,5 @@ export class InMemoryJobRepository implements JobRepository {
     job.updatedAt = new Date()
 
     return job
-  }
-
-
-  // ⚠️ Mantido apenas para debug / admin
-  async findNextPending(): Promise<JobEntity<any> | null> {
-    return this.jobs.find(j => j.status === 'pending') ?? null
-  }
-
-  // ✅ CLAIM ATÔMICO
-  async claimNextPending(): Promise<JobEntity<any> | null> {
-    const job = this.jobs.find(j => j.status === 'pending')
-
-    if (!job) return null
-
-    // operação atômica dentro da mesma função
-    job.status = 'running'
-    job.attempts++
-    job.updatedAt = new Date()
-
-    return job
-  }
-
-  async findByStatus(status: JobStatus): Promise<JobEntity<any>[]> {
-    return this.jobs.filter(j => j.status === status)
   }
 }

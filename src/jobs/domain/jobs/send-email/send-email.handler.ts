@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import type { JobHandler } from '../../types/job-handler.type.js'
 
 export const sendEmailHandler: JobHandler<'send-email'> = async payload => {
@@ -14,7 +15,7 @@ export const sendEmailHandler: JobHandler<'send-email'> = async payload => {
   return {
     status: 'success',
     data: {
-      messageId: crypto.randomUUID(),
+      messageId: randomUUID(),
       queuedAt: new Date()
     }
   }

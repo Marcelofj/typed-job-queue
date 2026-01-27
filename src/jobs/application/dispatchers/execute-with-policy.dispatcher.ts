@@ -9,18 +9,13 @@ import type {
 
 import { dispatchJob } from './dispatch-job.dispatcher.js'
 
-export type JobExecutionContextOptions = {
-  attempt: number
-}
-
 /**
  * Executor puro com política aplicada.
  * NÃO conhece observabilidade.
  */
 export const executeWithPolicy = async <T extends JobType>(
   job: Job<T>,
-  handlers: JobHandlers,
-  options: JobExecutionContextOptions,
+  handlers: JobHandlers
 ): Promise<JobExecutionResult<JobResults[T], JobErrors[T]>> => {
 
   // aqui poderia futuramente entrar timeout, circuit breaker, etc
