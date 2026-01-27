@@ -1,7 +1,7 @@
 // Barrel Export
 // DISPATCHERS
 export { dispatchJob } from './dispatchers/dispatch-job.dispatcher.js'
-export { executeObserved } from './dispatchers/execute-observed.dispatcher.js'
+export { executeWithListener } from './dispatchers/execute-with-listener.dispatcher.js'
 export { executeWithPolicy } from './dispatchers/execute-with-policy.dispatcher.js'
 
 // FACTORIES
@@ -15,7 +15,7 @@ export type {
   JobFailedEvent,
   JobTelemetryEvent
 } from './observability/job-telemetry-events.observability.js'
-export type { JobExecutionObserver } from './observability/job-execution-observer.observability.js'
+export type { JobExecutionListener } from './observability/job-execution-listener.observability.js'
 export type { JobTelemetryPort } from './observability/job-telemetry-port.observability.js'
 export { JobExecutionMetricsContext } from './observability/job-execution-metrics-context.observability.js'
 

@@ -62,7 +62,7 @@ src
 │   │   │   └── create-job.factory.ts
 │   │   ├── observability
 │   │   │   ├── execution-metrics-context.observability.ts
-│   │   │   ├── execution-observer.observability.ts
+│   │   │   ├── execution-listener.observability.ts
 │   │   │   ├── job-telemetry-events.observability.ts
 │   │   │   └── job-telemetry-port.observability.ts
 │   │   ├── policies
@@ -289,7 +289,7 @@ Componentes:
 - `job-telemetry-events.observability.ts` → contratos de eventos
 - `job-telemetry-port.observability.ts` → porta de publicação
 - `execution-metrics-context.observability.ts` → wrapper de execução
-- `execution-observer.observability.ts` → integração com execução
+- `execution-listener.observability.ts` → integração com execução
 
 Infra concreta:
 

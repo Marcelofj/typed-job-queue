@@ -4,7 +4,7 @@ import type {
   JobType
 } from '../../domain/index.js'
 
-export interface JobExecutionObserver {
+export interface JobExecutionListener {
   onAttemptStart<T extends JobType>(job: Job<T>, attempt: number): void
   onAttemptFinish<T extends JobType, R, E>(
     job: Job<T>,

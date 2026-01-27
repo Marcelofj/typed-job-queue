@@ -29,8 +29,8 @@ const queue = new InMemoryJobQueue()
 // Application
 // --------------------
 
-const observer = new JobExecutionMetricsContext(telemetry)
-const jobWorker = new JobWorker(repository, queue, handlers, observer)
+const listener = new JobExecutionMetricsContext(telemetry)
+const jobWorker = new JobWorker(repository, queue, handlers, listener)
 const jobFactory = new JobFactory(repository, queue)
 
 // --------------------

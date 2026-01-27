@@ -6,29 +6,29 @@ import type {
   JobErrors
 } from '../../domain/index.js'
 
-import type { JobExecutionObserver } from '../observability/job-execution-observer.observability.js'
+import type { JobExecutionListener } from '../observability/job-execution-listener.observability.js'
 
 /**
  * Wrapper de execução observável.
  * Responsável EXCLUSIVAMENTE por telemetria de tentativa.
  * Não conhece handlers, políticas ou filas.
  */
-export async function executeObserved<T extends JobType>(
+export async function executeWithListener<T extends JobType>(
   job: Job<T>,
   attempt: number,
-  observer: JobExecutionObserver,
+  listener: JobExecutionListener,
   exec: () => Promise<JobExecutionResult<JobResults[T], JobErrors[T]>>
 ): Promise<JobExecutionResult<JobResults[T], JobErrors[T]>> {
 
   const start = Date.now()
 
-  observer.onAttemptStart(job, attempt)
+  listener.onAttemptStart(job, attempt)
 
   const result = await exec()
 
   const durationMs = Date.now() - start
 
-  observer.onAttemptFinish(job, attempt, result, durationMs)
+  listener.onAttemptFinish(job, attempt, result, durationMs)
 
   return result
 }

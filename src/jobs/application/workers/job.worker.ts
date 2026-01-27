@@ -1,7 +1,7 @@
 import type { JobHandlers, JobRepository } from '../../domain/index.js'
-import type { JobExecutionObserver } from '../observability/job-execution-observer.observability.js'
+import type { JobExecutionListener } from '../observability/job-execution-listener.observability.js'
 import { executeWithPolicy } from '../dispatchers/execute-with-policy.dispatcher.js'
-import { executeObserved } from '../dispatchers/execute-observed.dispatcher.js'
+import { executeWithListener } from '../dispatchers/execute-with-listener.dispatcher.js'
 import { decideRetry } from '../policies/retry.policy.js'
 import type { JobQueue } from '../queues/job.queue.js'
 
@@ -11,7 +11,7 @@ export class JobWorker {
     private readonly repository: JobRepository,
     private readonly queue: JobQueue,
     private readonly handlers: JobHandlers,
-    private readonly observer?: JobExecutionObserver
+    private readonly listener?: JobExecutionListener
   ) { }
 
   async runOnce(): Promise<void> {
@@ -29,11 +29,11 @@ export class JobWorker {
       this.handlers
     )
 
-    const result = this.observer
-      ? await executeObserved(
+    const result = this.listener
+      ? await executeWithListener(
         job,
         job.attempts,
-        this.observer,
+        this.listener,
         exec
       )
       : await exec()
