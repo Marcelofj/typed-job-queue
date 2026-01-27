@@ -4,8 +4,8 @@ export type RetryDecision =
   | { action: 'retry' }
   | { action: 'discard' }
 
-export function decideRetry(
-  result: JobExecutionResult<any, any>,
+export function decideRetry<T, E>(
+  result: JobExecutionResult<T, E>,
   attempt: number
 ): RetryDecision {
   if (result.status === 'success') {
