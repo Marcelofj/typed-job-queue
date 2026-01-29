@@ -33,6 +33,12 @@ export {
   cleanUpTempFilesHandler
 } from './jobs/clean-up-temp-files/index.js'
 
+// QUEUES
+export type { JobQueue } from './queues/job.queue.js'
+
+// REPOSITORIES
+export type { JobRepository } from './repositories/job-repository.port.js'
+
 // TYPES
 export type { JobErrors } from './types/job-errors.type.js'
 
@@ -59,7 +65,3 @@ export type {
 export type { JobPayloads } from './types/job-payloads.type.js'
 
 export type { JobResults } from './types/job-results.type.js'
-
-// REPOSITORIES
-export type { JobRepository } from './repositories/job-repository.port.js'
-

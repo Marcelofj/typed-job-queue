@@ -6,7 +6,7 @@ import type {
   JobEntity
 } from '../../domain/index.js'
 
-import type { JobQueue } from '../queues/job.queue.js'
+import type { JobQueue } from '../../domain/queues/job.queue.js'
 
 export class JobFactory {
   constructor(

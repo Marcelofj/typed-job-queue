@@ -1,4 +1,4 @@
-import type { JobQueue } from '../../application/queues/job.queue.js'
+import type { JobQueue } from '../../domain/queues/job.queue.js'
 
 export class InMemoryJobQueue implements JobQueue {
   private queue: string[] = []
@@ -8,6 +8,6 @@ export class InMemoryJobQueue implements JobQueue {
   }
 
   async dequeue(): Promise<string | undefined> {
-    return this.queue.shift()
+    return this.queue.shift() ?? undefined
   }
 }

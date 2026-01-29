@@ -1,9 +1,10 @@
 import type { JobHandlers, JobRepository } from '../../domain/index.js'
 import type { JobExecutionListener } from '../observability/job-execution-listener.observability.js'
-import { executeWithPolicy } from '../dispatchers/execute-with-policy.dispatcher.js'
 import { executeWithListener } from '../dispatchers/execute-with-listener.dispatcher.js'
 import { decideRetry } from '../policies/retry.policy.js'
-import type { JobQueue } from '../queues/job.queue.js'
+import type { JobQueue } from '../../domain/queues/job.queue.js'
+import { jobExecutionProjection } from '../projections/job-execution.projection.js'
+import { executeJob } from '../executions/execute-job.js'
 
 
 export class JobWorker {
@@ -21,39 +22,41 @@ export class JobWorker {
     if (!jobId) return
 
     // 🔹 busca o estado real no repositório
-    const job = await this.repository.claimById(jobId)
-    if (!job) return
+    const jobEntity = await this.repository.claimById(jobId)
+    if (!jobEntity) return
 
-    const exec = () => executeWithPolicy(
-      job,
+    const executionJob = jobExecutionProjection(jobEntity)
+
+    const exec = () => executeJob(
+      executionJob,
       this.handlers
     )
 
     const result = this.listener
       ? await executeWithListener(
-        job,
-        job.attempts,
+        executionJob,
+        jobEntity.attempts,
         this.listener,
         exec
       )
       : await exec()
 
-    const decision = decideRetry(result, job.attempts)
+    const decision = decideRetry(result, jobEntity.attempts)
 
     if (result.status === 'success') {
-      job.status = 'success'
+      jobEntity.status = 'success'
     } else if (decision.action === 'retry') {
-      job.status = 'pending'
+      jobEntity.status = 'pending'
 
-      await this.queue.enqueue(job.id)
+      await this.queue.enqueue(jobEntity.id)
     } else {
-      job.status = 'failure'
+      jobEntity.status = 'failure'
     }
 
-    job.updatedAt = new Date()
-    await this.repository.update(job)
+    jobEntity.updatedAt = new Date()
+    await this.repository.update(jobEntity)
 
-    console.log('Job:', JSON.stringify(job, null, 2))
+    console.log('Job:', JSON.stringify(jobEntity, null, 2))
     console.log('Result:', JSON.stringify(result, null, 2))
     console.log('Decision:', decision)
     console.log('----------------------------------------\n')

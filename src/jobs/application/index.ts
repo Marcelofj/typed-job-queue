@@ -1,8 +1,14 @@
 // Barrel Export
+// CONTEXTS
+export type { JobExecutionContext } from './contexts/job-execution.context.js'
+
 // DISPATCHERS
 export { dispatchJob } from './dispatchers/dispatch-job.dispatcher.js'
 export { executeWithListener } from './dispatchers/execute-with-listener.dispatcher.js'
 export { executeWithPolicy } from './dispatchers/execute-with-policy.dispatcher.js'
+
+// EXECUTIONS
+export { executeJob } from './executions/execute-job.js'
 
 // FACTORIES
 export { JobFactory } from './factories/job.factory.js'
@@ -23,8 +29,8 @@ export { JobExecutionMetricsContext } from './observability/job-execution-metric
 export type { RetryDecision } from './policies/retry.policy.js'
 export { decideRetry } from './policies/retry.policy.js'
 
-// QUEUES
-export type { JobQueue } from './queues/job.queue.js'
+// PROJECTIONS
+export { jobExecutionProjection } from './projections/job-execution.projection.js'
 
 // WORKERS
 export { JobWorker } from './workers/job.worker.js'
